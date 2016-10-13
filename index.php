@@ -4,103 +4,109 @@ include_once('aksi/db.php');
 <!DOCTYPE html>
 <html>
 <head>
-	<title>AJAX</title>
-<script type ="text/javascript" src="jquery-2.1.4.min.js"></script>
-
-<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.12/css/jquery.dataTables.css">
-<script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.js"></script>
-<!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-
-<!-- Optional theme -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-
-<!-- Latest compiled and minified JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-<script src="assets/sweetalert-master/dist/sweetalert.min.js"></script> 
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+  <title>Ajax CRUD Full V1</title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="assets/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="assets/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+<!-- sweetalert --> 
 <link rel="stylesheet" type="text/css" href="assets/sweetalert-master/dist/sweetalert.css">
-<script type="text/javascript" src="aksi/aksi.js"></script> 
-<script type="text/javascript" src="assets/navbar/style.js"></script> 
-<link rel="stylesheet" type="text/css" href="assets/navbar/style.css">
 </head>
 <body>
+<!--navbar-->
+  <div class="navbar-fixed">
+  <nav class="light-blue lighten-1" role="navigation">
+    <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo"><img class="responsive-img "  src="assets/img/ttl-clickcoodstudio.png" alt="clickcoodstudio" width="57"></a>
+      <ul class="right hide-on-med-and-down">
+        <li><a href="https://github.com/rizkytama/ajax_crud">Source</a></li>
+      </ul>
 
-    <nav id="header" class="navbar navbar-fixed-top fixed-theme">
-            <div id="header-container" class="container navbar-container fixed-theme">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a id="brand" class="navbar-brand fixed-theme" href="http://bootsnipp-env.elasticbeanstalk.com/iframe/PaVbr#"><img src="car-967387_640.png" alt=""  class="img-responsive"></a>
-                </div>
-                <div id="navbar" class="collapse navbar-collapse">
-                    <ul class="nav navbar-nav">
-                        <li class="active"><a href="http://bootsnipp-env.elasticbeanstalk.com/iframe/PaVbr#">Home</a></li>
-                        <li><a href="http://bootsnipp-env.elasticbeanstalk.com/iframe/PaVbr#about">About</a></li>
-                        <li><a href="http://bootsnipp-env.elasticbeanstalk.com/iframe/PaVbr#contact">Contact</a></li>
-                    </ul>
-                </div><!-- /.nav-collapse -->
-            </div><!-- /.container -->
-        </nav><!-- /.navbar -->
+      <ul id="nav-mobile" class="side-nav">
+      	<li><a class="subheader"><h1><u><b>Menu</b></u></h1></a></li>
+      	<li><a class="subheader"></a></li>
+        <li><a href="https://github.com/rizkytama/ajax_crud" class="waves-effect">Source</a></li>
+      </ul>
+      <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+    </div>
+  </nav>
+  </div>
 
+ <div >
+    <div class="section">
+		<center>
+		<a class="modal-trigger waves-effect waves-light btn tooltipped" data-position="bottom" data-delay="50" data-tooltip="Tambah Data" href="#insertmodal"><i class="material-icons">add</i></a>
+		</center>
 
-
-<div class="jumbotron">
-<center><button type="button" class="btn btn-primary btn-lg " data-toggle="modal" data-target="#insertmodal">
-  Tambah Data
-</button></center>
-
-     
-<table id="example" class="display" cellspacing="0" width="100%">
-
-	<thead >
-		<tr>
-			<th>nama</th>
-			<th>alamat</th>
-			<th>pondok</th>
-			<th>aksi</th>
-		</tr>
-	</thead>
-	<tbody id='isitabel'>
-	<?php 
-
- // $id="1400 ' OR 'x'='x";
-$query=$conn->query("SELECT * FROM santri,pondok where santri.pondok_idpondok=pondok.idpondok order by id desc");
-$total=$query->rowCount();
-
-while($row=$query->fetch(PDO::FETCH_OBJ)) { ?>
-		<tr class="trnya" id="tr_<?= $row->id; ?>" >
-			<td><?= htmlentities($row->nama); ?></td>
-			<td><?= htmlentities($row->alamat); ?></td>
-			<td><?= htmlentities($row->nama_pondok); ?></td>
-			<td>
-				<button class ="btn btn-primary editnya"  edit-idnya="<?= $row->id; ?>">edit</button>
-				<button class ="btn btn-danger deletenya"  del-idnya="<?= $row->id; ?>">delete</button>
-
-			</td>
-		</tr>
-		<?php } ?> 
-	</tbody>
-</table>
+			<table class="striped centered highlight" >
+				<thead >
+					<tr>
+						<th>nama</th>
+						<th>alamat</th>
+						<th>pondok</th>
+						<th>aksi</th>
+					</tr>
+				</thead>
+				<tbody id='isitabel'>
+				<?php 
+				$query=$conn->query("SELECT * FROM santri,pondok where santri.pondok_idpondok=pondok.idpondok order by id desc");
+				$total=$query->rowCount();
+				while($row=$query->fetch(PDO::FETCH_OBJ)) { ?>
+						<tr class="trnya" id="tr_<?= $row->id; ?>" >
+							<td><?= htmlentities($row->nama); ?></td>
+							<td><?= htmlentities($row->alamat); ?></td>
+							<td><?= htmlentities($row->nama_pondok); ?></td>
+							<td>
+							<button class ="btn waves-effect waves-light  light-blue darken-1 tooltipped editnya" data-position="bottom" data-delay="50" data-tooltip="Edit" edit-idnya="<?= $row->id; ?>" ><i class="material-icons">edit</i></button>
+							<button class ="btn waves-effect waves-light amber darken-4  tooltipped deletenya" data-position="bottom" data-delay="50" data-tooltip="Hapus" del-idnya="<?= $row->id; ?>"><i class="material-icons">delete</i></button>
+							</td>
+						</tr>
+				<?php } ?> 
+				</tbody>
+			</table>
+	</div>
 </div>
 
 
 
-
-
-
-
-
-
 <div id="tedit"></div>
-<div id="tsimpan">
-<?php 
- include_once('aksi/form.php');
- ?>
- </div>
+<div id="tsimpan"><?php  include_once('aksi/form.php'); ?></div>
+
+
+<footer class="page-footer orange">
+    <div class="container">
+      <div class="row">
+        <div class="col l6 s12">
+          <h5 class="white-text">Cuap-Cuap</h5>
+          <p class="grey-text text-lighten-4">Aplikasi ini merupakan aplikasi crud menggunkan jquery ajax versi 1, untuk versi ke 2 akan di luncurkan segera. Perbedaan Antara v1 dengan v2 adalah dalam hal pertukaran datanya. Pada v2, pertukaran datanya akan menggunakn json.(maap yee kalo bahasannya keliru :p )</p>
+
+
+        </div>
+        <div class="col l3 s12">
+          
+        </div>
+        <div class="col l3 s12">
+          <h5 class="white-text">Connect</h5>
+          <ul>
+            <li><a class="white-text" href="https://www.facebook.com/tama.rizky"> <i class="material-icons">mail</i></a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-copyright">
+      <div class="container">
+      Made by <a class="orange-text text-lighten-3" href="https://www.facebook.com/tama.rizky">Rizky Tama</a>
+      </div>
+    </div>
+  </footer>
+
+
+<script type ="text/javascript" src="assets/jquery-2.1.4.min.js"></script>
+<!-- sweetalert -->
+<script src="assets/sweetalert-master/dist/sweetalert.min.js"></script>
+<script src="assets/js/materialize.min.js"></script>
+<script src="assets/js/init.js"></script>
+<script type="text/javascript" src="aksi/aksi.js"></script> 
 
 </body>
 </html>

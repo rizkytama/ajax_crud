@@ -20,8 +20,8 @@ if(!empty($_GET)){
 			<td><?= htmlentities($row['alamat']); ?></td>
 			<td><?= htmlentities($row['nama_pondok']); ?></td>
 			<td>
-				<button class ="btn btn-primary editnya"  edit-idnya="<?= $row['id']; ?>">edit</button>
-				<button class ="btn btn-danger deletenya"  del-idnya="<?= $row['id']; ?>">delete</button>
+				<button class ="btn waves-effect waves-light  light-blue darken-1 tooltipped editnya" data-position="bottom" data-delay="50" data-tooltip="Edit" edit-idnya="<?= $row['id']; ?>" ><i class="material-icons">edit</i></button>
+				<button class ="btn waves-effect waves-light amber darken-4  tooltipped deletenya" data-position="bottom" data-delay="50" data-tooltip="Hapus" del-idnya="<?= $row['id']; ?>"><i class="material-icons">delete</i></button>
 			</td>
 		</tr>
 
@@ -45,8 +45,8 @@ if(!empty($_GET)){
 			<td><?= htmlentities($row['alamat']); ?></td>
 			<td><?= htmlentities($row['nama_pondok']); ?></td>
 			<td>
-				<button class ="btn btn-primary editnya"  edit-idnya="<?= $row['id']; ?>">edit</button>
-				<button class ="btn btn-danger deletenya"  del-idnya="<?= $row['id']; ?>">delete</button>
+					<button class ="btn waves-effect waves-light  light-blue darken-1 tooltipped editnya" data-position="bottom" data-delay="50" data-tooltip="Edit" edit-idnya="<?= $row['id']; ?>" ><i class="material-icons">edit</i></button>
+				<button class ="btn waves-effect waves-light amber darken-4  tooltipped deletenya" data-position="bottom" data-delay="50" data-tooltip="Hapus" del-idnya="<?= $row['id']; ?>"><i class="material-icons">delete</i></button>
 
 			</td>
 		</tr>
@@ -75,34 +75,22 @@ if(!empty($_GET)){
 
 <form class="form-horizontal" id='form_edit'>
 
-<div class="modal fade" tabindex="-1" role="dialog" id="editmodal">
-  <div class="modal-dialog" role="document">
+<div class="modal modal-fixed-footer" tabindex="-1" role="dialog"  id="editmodal">
     <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Form Data Santri</h4>
-      </div>
-      <div class="modal-body">
+     	<center><h1>Edit Data</h1></center>
 
-
-  <div class="form-group">
-    <label class="control-label col-sm-2" for="nama">Nama:</label>
-    <div class="col-sm-10">
-      <input type="text" class="form-control" id="nama" name="e_nama" placeholder="Nama Santri" value="<?=$rowedit->nama?>">
+<div class="input-field col s6">
+    <label class="active" for="nama">Nama:</label>
+      <input type="text" class="validate" id="nama" name="e_nama" value="<?=$rowedit->nama?>">
     </div>
-  </div>
-  <div class="form-group">
-    <label class="control-label col-sm-2" for="alamat">Alamat:</label>
-    <div class="col-sm-10"> 
-      <input type="text" class="form-control" id="alamat" name="e_alamat" placeholder="Alamat Santri" value="<?=$rowedit->alamat?>">
-    </div>
-  </div>
- <div class="form-group">
-    <label class="control-label col-sm-2" for="pondok">Pondok:</label>
-    <div class="col-sm-10"> 
 
-<select name="e_pondok" id="pondok" class="form-control">
-  <option value="" >Pilih Pondok</option>
+<div class="input-field col s6">
+    <label class="active" for="alamat">Alamat:</label>
+      <input type="text" class="validate" id="alamat" name="e_alamat" value="<?=$rowedit->alamat?>">
+    </div>
+
+<select name="e_pondok" id="pondok" required>
+  <option value="" disabled selected>Pilih Pondok</option>
 	<option value="<?=$rowedit->pondok_idpondok?>" selected ><?=$rowedit->nama_pondok ?></option>
   <?php
 $qsantri=$conn->query("SELECT * FROM pondok");
@@ -111,22 +99,20 @@ while($row_s=$qsantri->fetch(PDO::FETCH_ASSOC)) {
 }
   ?>
 </select>
+
     </div>
-  </div>
-      </div>
+
       <div class="modal-footer">
       <input type="hidden" name="e_id" id="ided" value="<?=$rowedit->id;?>">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         <button type="submit" id="tombol_edit" class="btn btn-primary">Save changes</button>
     
       <div id="wait" style="display:none;position:absolute;top:50%;left:50%;padding:2px;"><img src='assets/26.gif' width="64" height="64" /></div>
       </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
   </form>
 
 <script type="text/javascript" charset="utf-8" async defer>
+$('select').material_select();
 	$('#form_edit').submit(function(event) {
  var idedit=$('#ided').val();
     event.preventDefault(); 
@@ -147,7 +133,7 @@ while($row_s=$qsantri->fetch(PDO::FETCH_ASSOC)) {
         $('#nama').val('');
         $('#alamat').val('');
         $('#pondok').val('');
-        $('#editmodal').modal('hide');
+        $('#editmodal').closeModal();
         $('#isitabel').prepend(data);
         sweetAlert("Berhasil...", "Data Berhasil Diupdate"+idedit, "success");
       }

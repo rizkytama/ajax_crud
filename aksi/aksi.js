@@ -1,13 +1,18 @@
-
-	
 	$(document).ready(function() {
 
-    $('#example').DataTable();
-
-//////untuk auto refresh//
-// setInterval(function(){
-//     show();
-// },1000);
+  $(".button-collapse").sideNav();
+   $('select').material_select();
+ $('.modal-trigger').leanModal({
+      dismissible: true, // Modal can be dismissed by clicking outside of the modal
+      opacity: .5, // Opacity of modal background
+      in_duration: 300, // Transition in duration
+      out_duration: 200, // Transition out duration
+      starting_top: '4%', // Starting top style attribute
+      ending_top: '10%', // Ending top style attribute
+      //ready: function() { alert('Ready'); },  Callback for Modal open
+      //complete: function() { alert('Closed'); }  Callback for Modal close
+    }
+  );
 
     $('#form_insert').submit(function(event) {
       	event.preventDefault(); 
@@ -27,7 +32,7 @@
 				$('#nama').val('');
 		    	$('#alamat').val('');
     			$('#pondok').val('');
-          $('#insertmodal').modal('hide');
+          $('#insertmodal').closeModal();
     			$('#isitabel').prepend(data);
     			sweetAlert("Berhasil...", "Data Berhasil Disimpan", "success");
     		}
@@ -71,7 +76,7 @@ $(document).on('click','.editnya',function(event){
       }else{
         console.log(data);
         $('#tedit').prepend(data);
-        $('#editmodal').modal('show');
+        $('#editmodal').openModal();
       }
     }
   });
