@@ -78,7 +78,7 @@ include_once('aksi/db.php');
       <div class="row">
         <div class="col l6 s12">
           <h5 class="white-text">Cuap-Cuap</h5>
-          <p class="grey-text text-lighten-4">Aplikasi ini merupakan aplikasi crud menggunkan jquery ajax versi 1, untuk versi ke 2 akan di luncurkan segera. Perbedaan Antara v1 dengan v2 adalah dalam hal pertukaran datanya. Pada v2, pertukaran datanya akan menggunakn json.(maap yee kalo bahasannya keliru :p )</p>
+          <p class="grey-text text-lighten-4">tama iseng tama iseng tama iseng tama iseng tama iseng tama iseng tama iseng tama iseng tama iseng tama iseng tama iseng tama iseng tama iseng tama iseng tama iseng tama iseng </p>
 
 
         </div>
